@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	
+	<context:annotation-config/>
+	<context:component-scan base-package="com.susefish.*" />
+	
+	<!-- 定义数据源  -->
+	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+	   <property name="driverClass" value="com.mysql.jdbc.Driver" />
+	   <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/susefish"/>
+	   <property name="username" value="root"/>
+	   <property name="password" value="root"/>
+	   
+	   <!-- 设置connection的空闲存活时间 这个参数默认为60 -->
+	   <property name="idleMaxAge" value="60"/>
+	   
+	   <!-- 设置测试connection的间隔时间.这个参数默认为240 -->
+	   <property name="idleConnectionTestPeriod" value="240"/>
+	   
+	   <!-- 设置分区个数。这个参数默认为1，建议3-4 -->
+	   <property name="partitionCount" value="1"/>
+	   
+	   <!-- 设置每个分区含有connection最大个数 -->
+	   <property name="maxConnectionsPerPartition" value="10"/>
+	   
+	   <!-- 设置每个分区含有connection最小个数 -->
+	   <property name="minConnectionsPerPartition" value="5"/>
+
+	   <!-- 设置分区中的connection增长数量 这个参数默认为1 -->
+	   <property name="acquireIncrement" value="3"/>
+	   
+	   <!-- 设置连接池阀值.这个参数默认为20 数量应趋于maxConnectionPerPartition和minConnectionPerPartition之间 -->
+	   <property name="poolAvailabilityThreshold" value="7"/>
+	   
+	   <!-- 设置获取connection超时的时间(毫秒) -->
+	   <property name="connectionTimeout" value="5000"/>
+	   
+	   <!-- 设置statement缓存个数. 这个参数默认为0 -->
+	   <property name="statementsCacheSize" value="100"/>
+	   
+	   <!-- 设置connection助手线程个数.这个参数默认为3 -->
+	   <property name="releaseHelperThreads" value="5"/>
+	   
+	   <!-- 设置statement助手线程个数.这个参数默认为3 -->
+	   <property name="statementReleaseHelperThreads" value="2"/>
+	   
+	   <!-- 设置connection的存活时间(毫秒) -->
+	   <property name="maxConnectionAge" value="3000"/>	    
+	</bean>
+	
+	<!-- 定义sessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		
+		<!-- 关联所有model包下的实体类 -->
+		<property name="packagesToScan">
+			<list>
+				<value>com.susefish.model</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<!-- 数据库方言 -->
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				
+				<!-- 显示sql语句 -->
+				<prop key="hibernate.show_sql">true</prop>
+				
+				<!-- 使用getCurrentSession() -->
+				<prop key="current_session_context_class">thread</prop>
+				
+				<!-- 打开二级缓存开关 -->
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				
+				<!-- 使用EhCache -->
+				<prop key=" hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop> 
+				
+				<!-- 使用查询缓存 -->
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				
+				<!-- 这一步配置一定用加，否则tomcat启动后会出现org.springframework.beans.factory.BeanCreationException的异常 -->
+        <prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</prop>
+        
+        <!-- 数据库重新连接
+			  <prop key="connection.autoReconnect">true</prop>
+			  <prop key="connection.autoReconnectForPools">true</prop>
+			  <prop key="connection.is-connection-validation-required">true</prop> -->
+			</props>
+		</property>
+	</bean>
+	
+	<!--  HibernateTemplate模板引用 ==> SessionFactroy -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<!--  Dao类引用 ==> HibernateTemplate模板 -->
+	<bean id="dao" class="com.susefish.dao.Dao"/>
+	
+	<!-- 声明式的事务管理 -->
+	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+		    <!-- 给所有方法名select开头的方法(即所有的查询/只读操作)设置为read-only以提高效率 -->
+			<tx:method name="get" read-only="true"/>
+			<tx:method name="find*" read-only="true"/>
+			
+			<!-- 给所有方法名release开头的方法(即增加/修改的操作)设置为REQUIRED(如果有事务就用原来已经有的，没有就创建一个新的事务) -->
+			<tx:method name="save*" propagation="REQUIRED"/>
+			<tx:method name="update" propagation="REQUIRED"/>
+			<tx:method name="merge" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice> 
+	<aop:config>
+		<!-- 给com.wen.spring.dao包下的所有方法添加事务管理  -->
+		<aop:pointcut id="transaction" expression="execution(public * com.susefish.dao..*.*(..))"/>
+		<!-- 引用名字叫做"txAdvice"的事务管理器 -->
+		<aop:advisor pointcut-ref="transaction" advice-ref="txAdvice"/>
+	</aop:config>
+
+	<!-- Action 注意一定要关闭单例，这样才符合struts2的特性 -->
+	<bean id="user" class="com.susefish.action.UserAction" scope="prototype">
+	</bean>
+	
+</beans>

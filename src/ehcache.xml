@@ -1,0 +1,17 @@
+<ehcache>
+
+    <diskStore path="java.io.tmpdir"/>
+    
+    <!-- maxElementsInMemory: 最大缓存多少个对象 -->
+    <!-- eternal: 缓存对象永远存在(设为false为可以清除对象 推荐false) -->
+    <!-- timeToIdleSeconds: 在一定时间内没有被使用该对象会被从缓存中清除(单位: 秒) -->
+    <!-- timeToLiveSeconds: 设置对象在失效前允许存活时间(单位: 秒) -->
+    <!-- overflowToDisk: 内存溢出时是否将对象存储在硬盘上(推荐ture 默认路径为c盘临时路径) -->
+    <defaultCache
+        maxElementsInMemory="10000"
+        eternal="false"
+        timeToIdleSeconds="130"
+        timeToLiveSeconds="800"
+        overflowToDisk="true" />
+
+</ehcache>

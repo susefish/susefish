@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 设置浏览器是否缓存静态内容，默认值为true(生产环境下使用),开发阶段最好关闭 
+	<constant name="struts.serve.static.browserCache" value="false"/> -->
+	
+    <!-- 当struts的配置文件修改后,系统是否自动重新加载该文件,
+    默认值为false(生产环境下使用),开发阶段最好打开 
+    <constant name="struts.configuration.xml.reload" value="true"/> -->
+
+	<!-- 使用开发模式，每次修改后不需要重新部署 -->
+	<constant name="struts.devMode" value="true"/>
+	
+	<!-- 如果要显示静态方法名，在struts2.1以后一定要在struts.xml里上这条: -->
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	
+	<!-- 设置struts2编码格式 -->
+	<constant name="struts.i18n.encoding" value="UTF-8"/>
+	
+	<!-- 让spring负责创建action(spring整合struts2必设) -->
+	<constant name="struts.objectFactory" value="spring" />
+	
+	
+	<!-- 配置一个全局的声明式异常，让其他包都继承我 -->
+	<package name="error-default" extends="struts-default">
+		<global-results>
+    		<result name="error">/error.jsp</result>
+    	</global-results>
+    	
+		<global-exception-mappings>
+    		<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+    	</global-exception-mappings>
+   </package>
+	
+	<!-- 注意:<package>下的extends默认是"struts-default"，如果这时候有
+	多个包的话，想使用其他包里的action，那么就可以extends="那个包的name" -->
+	<package name="default" namespace="/" extends="struts-default">
+    	
+		<!-- 如果有多个action,都有返回到同一个页面的请求，那么在每个action里都写一遍
+		<result>显然太麻烦了，这时候可以配置一个全局结果集<global-result>，
+		这样所有的action都可以共用他。 
+		<global-results>
+				<result name="mainpage">/main.jsp</result>
+		</global-results> -->
+
+      	<action name="*_*" class="{1}" method="{2}">
+        	<result>/{1}_{2}.jsp</result>
+        	<result name="error">/error.jsp</result>
+        </action>
+	</package>
+</struts>
