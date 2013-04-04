@@ -1,5 +1,5 @@
 /**
- * @author 闻化东
+ * @author 闂诲寲涓�
  */
 package com.susefish.service;
 
@@ -16,8 +16,8 @@ import com.susefish.model.*;
 import com.susefish.util.DateUtil;
 
 /**
- * 业务层：用户操作相关
- * @author 闻化东
+ * 涓氬姟灞傦細鐢ㄦ埛鎿嶄綔鐩稿叧
+ * @author 闂诲寲涓�
  */
 @Service("userService")
 public class UserService
@@ -26,7 +26,7 @@ public class UserService
 	@Resource(name="dao")
 	private Dao dao;
 	
-	//用户注册
+	//鐢ㄦ埛娉ㄥ唽
 	public String userRegister(SuseUser suseUser, Map<String, Object> request)
 	{
 		String result = "success";
@@ -39,8 +39,8 @@ public class UserService
 			su.setAddTime(DateUtil.getTimestamp());
 			
 			SuseUserInfo sui = new SuseUserInfo();
-			sui.setNickName("凯");
-			sui.setRealName("张");
+			sui.setNickName("hello");
+			sui.setRealName("there");
 			sui.setAge(28);
 			
 			su.setSuseUserInfo(sui);
