@@ -6,15 +6,19 @@ package com.susefish.action;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ApplicationAware;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.susefish.service.UserService;
+import com.susefish.util.NetworkUtil;
 import com.susefish.model.*;
 
 /**
@@ -32,6 +36,7 @@ public class UserAction extends ActionSupport implements RequestAware,SessionAwa
 	private HttpServletResponse response;
 	private Map<String, Object> application;
 	
+	
 	//业务层
 	@Resource(name="userService")
 	private UserService userService;
@@ -39,7 +44,14 @@ public class UserAction extends ActionSupport implements RequestAware,SessionAwa
 	//实体类
 	private SuseUser suseUser;
 	
-	static int i=0;
+	//用户进入首页访问
+	public String userAccess()
+	{
+		String ip = NetworkUtil.getIpAddr(ServletActionContext.getRequest());
+		System.out.println("my ip : " + ip);
+		return "index";
+	}
+	
 	//用户注册
 	public String userRegister()
 	{

@@ -19,11 +19,11 @@
 	<!-- 定义数据源  -->
 	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
 	   <property name="driverClass" value="com.mysql.jdbc.Driver" />
-	   <property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/susefish"/>
-	   <property name="username" value="root"/>
-	   <property name="password" value="root"/>
+	   <property name="jdbcUrl" value="jdbc:mysql://122.49.40.181:3306/susefish"/>
+	   <property name="username" value="fishbet"/>
+	   <property name="password" value="fishbet1644"/>
 	   
-	   <!-- 设置connection的空闲存活时间 这个参数默认为60 -->
+	   <!-- 设置connection的空闲存活时间  这个参数默认为60 -->
 	   <property name="idleMaxAge" value="60"/>
 	   
 	   <!-- 设置测试connection的间隔时间.这个参数默认为240 -->
