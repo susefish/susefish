@@ -157,6 +157,35 @@ $(document).ready(
 </head>
 
 <body>
+<?php 
+
+$now =  date('Y-m-d H:i:s',time());
+
+function getip() {
+ if (isset($_SERVER)) {
+  if (isset($_SERVER[HTTP_X_FORWARDED_FOR])) {
+   $realip = $_SERVER[HTTP_X_FORWARDED_FOR];
+  } elseif (isset($_SERVER[HTTP_CLIENT_IP])) {
+   $realip = $_SERVER[HTTP_CLIENT_IP];
+  } else {
+   $realip = $_SERVER[REMOTE_ADDR];
+  }
+ } else {
+  if (getenv("HTTP_X_FORWARDED_FOR")) {
+   $realip = getenv( "HTTP_X_FORWARDED_FOR");
+  } elseif (getenv("HTTP_CLIENT_IP")) {
+   $realip = getenv("HTTP_CLIENT_IP");
+  } else {
+   $realip = getenv("REMOTE_ADDR");
+  }
+ }
+ return $realip;
+}
+
+file_put_contents("ip.txt",getip()."    访问时间：      ".$now."\n",FILE_APPEND);
+
+
+?>
 <div class="container">
   <div class="masthead">
       <div>
