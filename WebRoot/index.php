@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta property="qc:admins" content="34223725276353561306375" />
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
+<link href="css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+<script src="js/jquery-1.9.1.js" type="text/javascript"></script>
+<script src="js/bootstrap.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+<script type="text/javascript">
+$(document).ready(
+	function(){
+		$('.carousel').carousel({
+  			interval: 2000
+		});
+		$('.carousel').bind("slid",function(){
+			var active = $(this).find(".active");
+			var  children = active.parent().children();
+            var activePos = children.index(active);
+			var prevTag = $(".badge-info");
+			prevTag.removeClass("badge-info");
+			prevTag.addClass("badge-inverse");
+			var nowTag = $("#tag li:eq("+activePos+") span");
+			nowTag.removeClass("badge-inverse");
+			nowTag.addClass("badge-info");
+		});
+		$("#myCarousel li").each(
+				function(index,element){
+					$(this).bind("click",
+						function(){
+							$('.carousel').carousel(index);
+						}
+					);
+				}
+		);
+	}
+);
+
+</script>
+<title>SUSEfish</title>
+<style type="text/css">
+      body {
+        padding-top: 20px;
+        padding-bottom: 60px;
+      }
+		input:focus{outline:none;}
+      /* Custom container */
+      .container {
+        margin: 0 auto;
+        max-width: 1000px;
+      }
+      .container > hr {
+        margin: 60px 0;
+      }
+
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 80px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 100px;
+        line-height: 1;
+      }
+      .jumbotron .lead {
+        font-size: 24px;
+        line-height: 1.25;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }
+
+
+      /* Customize the navbar links to be fill the entire space of the .navbar */
+      .navbar .navbar-inner {
+        padding: 0;
+      }
+      .navbar .nav {
+        margin: 0;
+        display: table;
+        width: 100%;
+      }
+      .navbar .nav li {
+        display: table-cell;
+        width: 1%;
+        float: none;
+      }
+      .navbar .nav li a {
+        font-weight: bold;
+        text-align: center;
+        border-left: 1px solid rgba(255,255,255,.75);
+        border-right: 1px solid rgba(0,0,0,.1);
+      }
+      .navbar .nav li:first-child a {
+        border-left: 0;
+        border-radius: 3px 0 0 3px;
+      }
+      .navbar .nav li:last-child a {
+        border-right: 0;
+        border-radius: 0 3px 3px 0;
+      }
+	  #myCarousel ul {
+		position:absolute;
+	    list-style-type:none;
+	    opacity:0.8; 
+	    z-index:1002;
+		bottom:0px;
+		right:5px;
+	  }
+      #myCarousel ul li { 
+	    padding:0px 3px;
+        float:left;
+        display:block;
+        cursor:pointer
+	  }
+      #myCarousel ul li.on { 
+	    background:#900
+	  }
+	  .phead{
+		padding-left:10px;
+	    vertical-align:middle;
+	    line-height:28px;
+	    display:block;
+		filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#FFFFFF,endcolorstr=#E4E4E4,gradientType=0);
+	    background:-moz-linear-gradient(top, #FFFFFF, #E4E4E4);
+	    background:-webkit-gradient(linear, 0 0, 0 bottom, from(#FFFFFF), to(#E4E4E4));
+	  }
+	  .ptitle{
+	  	font-size:14px;
+	  }
+	  .cont{
+	  	border-color:#CCCCCC;
+		border-width:1px;
+		border-style:solid;
+	  }
+	  .recommend{
+	  	margin-left:10px;
+		line-height:40px;
+		color:#035EB7;
+	  }
+ </style>   
+</head>
+
+<body>
+<div class="container">
+  <div class="masthead">
+      <div>
+          <img src="./img/logo.jpg" class="img-rounded">
+      </div>
+      <div class="navbar">
+          <div class="navbar-inner">
+              <div class ="container">
+                  <ul class="nav">
+                    <li class="active"><a href="#">首页</a></li>
+                    <li><a href="#">倾听</a></li>
+                    <li><a href="#">拍客</a></li>
+                    <li><a href="#">阅读</a></li>
+                    <li><a href="#">T台</a></li>
+                    <li><a href="#">论坛</a></li>
+                  </ul>
+               </div>
+          </div>
+      </div>
+  </div>
+  <div class="container-fluid">
+  
+      <div class="row-fluid">
+      
+          <div class="span4" style="padding:10px">
+          
+            <!--Sidebar content-->
+                <div id="myCarousel" class="carousel">
+                    <div class="carousel-inner">  
+                       <div class="active item"><a href="#"><img src="./img/hd1.jpg"  /></a></div>
+                       <div class="item"><a href="#"><img src="./img/hd2.jpg"  /></a></div> 
+                       <div class="item"><a href="#"><img src="./img/hd3.jpg"  /></a></div>
+                    </div>
+                    <ul id="tag">
+                        <li><span class="badge badge-info">1</span></li>
+                        <li><span class="badge badge-inverse">2</span></li>
+                        <li><span class="badge badge-inverse">3</span></li>
+                   </ul>
+                </div>
+                <form>
+                	<fieldset>    
+                		<input type="text" class="input-medium search-query" placeholder="Search" > 
+                        <button class="btn btn-primary" type="button">站内搜索</button>
+                    </fieldset> 
+                </form>
+                <ul class="unstyled" style="color:#666666">
+                	<li><span class="muted">观影：盘点2010十大国产恐怖电影</span></li>
+                    <li><span class="muted">观影：我对《十三》的理解</span></li>
+                    <li><span class="muted">DWR之最佳实践应用</span></li>
+                    <li><span class="muted">北京这一年变化之一一变迁</span></li>
+                    <li><span class="muted">观影：盘点2010十大国产恐怖电影</span></li>
+                    <li><span class="muted">观影：我对《十三》的理解</span></li>
+                    <li><span class="muted">DWR之最佳实践应用</span></li>
+                    <li><span class="muted">北京这一年变化之一一变迁</span></li>
+                    <li><span class="muted">观影：盘点2010十大国产恐怖电影</span></li>
+                    <li><span class="muted">观影：我对《十三》的理解</span></li>
+                    <li><span class="muted">DWR之最佳实践应用</span></li>
+                    <li><span class="muted">北京这一年变化之一一变迁</span></li>
+                </ul>    	   
+           </div>
+           <div class="">
+            		<!--Body content-->
+					<table>
+					<tr><td>
+					<table width="488" cellpadding="10">
+                      <tr>
+                          <td>
+                              <a href="#" class="thumbnail">
+                                      <img src="img/img5.jpg" alt="" width="310" height="232">
+                            </a>
+                          </td>
+                          <td>
+                              <a href="#" class="thumbnail">
+                                      <img src="img/img5.jpg" alt="">
+                            </a>
+                          </td>
+                      </tr>
+                    <tr>
+                          <td>
+                              <a href="#" class="thumbnail">
+                                      <img src="img/img5.jpg" alt="" width="310" height="232">
+                            </a>
+                          </td>
+                          <td>
+                              <a href="#" class="thumbnail">
+                                      <img src="img/img5.jpg" alt="">
+                            </a>
+                          </td>
+                      </tr>
+                   </table>
+					</td></tr>
+					<tr><td>
+					<div class="container-fluid">
+                 	<div class="row-fluid">
+                    	<div class=" cont">
+                        	<div class="phead">
+    								<Strong class="ptitle">资讯</strong>
+                                    <div style="font-size:12px;display:inline-block">&nbsp;&nbsp;&nbsp;“黑马”审核名单						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年薪10-20万聘.net讲师</div>
+							</div>
+                            <div class="recommend"><strong>美媒体评论微软12大竞争对手</strong></div>
+                            <ul>
+                            	<li>ipad2已经投入量产  4月初上市</li>
+                                <li>黑客入侵腾讯服务器称存在严重漏洞</li>
+                                <li>十大顶级职业博客和他们的成功之道</li>
+                                <li>Channel--探索软件测试与软件测试人才</li>
+                                <li>报告称Bing在美份额升至12.8%谷歌下滑至68%</li>
+                                <li>微软彻底关闭Windows系统的AutoRun特性</li>
+                                <li>Windows春节隐私漏洞威胁9亿IE用户</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                    	<div class=" cont">
+                        	<div class="phead">
+                            	<Strong class="ptitle">移动</strong>                                
+                            </div>
+                            <div class="recommend"><strong>NOKIE CEO内部备忘录曝光：下决心逃离着火平台</strong></div>
+                            <ul>
+                            	<li>VeriZon Phone 4拆解图公布 支持GSM/CDMA双制式</li>
+                                <li>诺基亚周五将面临大考：或将联手Android</li>
+                                <li>Android2.4四月推出，代号仍为姜饼</li>
+                                <li>McAfee:2010年手机安全威胁激增</li>
+                                <li>【技术专题】Windows Phone 7精品教程</li>
+                                <li>微软彻底关闭Windows系统的AutoRun特性</li>
+                                <li>Windows春节隐私漏洞威胁9亿IE用户</li>
+                            </ul>
+                        </div>
+                    </div>
+                 </div>
+					</td></tr>
+					<table>
+                    
+                 
+				 
+				 
+				 
+				 
+           </div>
+      </div>
+  </div> 
+  
+</div>
+
+</body>
+</html>
